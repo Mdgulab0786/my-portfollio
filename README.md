@@ -164,6 +164,6 @@ MIT License - feel free to use this project for your own portfolio!
 
 ## Contact
 
-- Email: alex.johnson@email.com
-- GitHub: [Your GitHub Profile]
-- LinkedIn: [Your LinkedIn Profile]
+- Email: team66415@gmail.com
+- GitHub: https://github.com/Mdgulab0786
+- LinkedIn: https://www.linkedin.com/in/md-gulab-team66/
