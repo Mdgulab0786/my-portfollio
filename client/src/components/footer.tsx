@@ -13,11 +13,11 @@ const Footer = () => {
           <div className="mb-6 md:mb-0">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">AJ</span>
+                <span className="text-white font-bold">MG</span>
               </div>
               <span className="text-xl font-bold">Md Gulab</span>
             </div>
-            <p className="text-slate-400">© 2024 Md Gulab. All rights reserved.</p>
+            <p className="text-slate-400">© 2025 Md Gulab. All rights reserved.</p>
           </div>
           
           <div className="flex space-x-6">
