@@ -51,7 +51,7 @@ const Navigation = () => {
             <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">AJ</span>
             </div>
-            <span className="text-xl font-bold text-slate-800 dark:text-white">Alex Johnson</span>
+            <span className="text-xl font-bold text-slate-800 dark:text-white">Md Gulab</span>
           </div>
           
           {/* Desktop Navigation */}

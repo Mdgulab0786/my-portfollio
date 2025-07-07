@@ -17,7 +17,7 @@ const Footer = () => {
               </div>
               <span className="text-xl font-bold">Alex Johnson</span>
             </div>
-            <p className="text-slate-400">© 2024 Alex Johnson. All rights reserved.</p>
+            <p className="text-slate-400">© 2024 Md Gulab. All rights reserved.</p>
           </div>
           
           <div className="flex space-x-6">
