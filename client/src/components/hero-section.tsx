@@ -14,7 +14,7 @@ const HeroSection = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
             <h1 className="text-5xl lg:text-6xl font-bold text-slate-800 dark:text-white mb-6 animate-slide-up">
-              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Alex Johnson</span>
+              Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Md Gulab</span>
             </h1>
             <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 animate-slide-up" style={{ animationDelay: "0.2s" }}>
               Full Stack Developer passionate about creating beautiful, functional web applications that solve real-world problems.
