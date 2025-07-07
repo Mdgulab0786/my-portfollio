@@ -1,84 +1,10 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const { toast } = useToast();
-
-  const contactMutation = useMutation({
-    mutationFn: async (data: typeof formData) => {
-      try {
-        const response = await apiRequest("POST", "/api/contact", data);
-        return response;
-      } catch (error: any) {
-        throw new Error(error?.message || "Failed to send message");
-      }
-    },
-    onSuccess: (data) => {
-      toast({
-        title: "Message sent successfully!",
-        description: "Thank you for your message. I'll get back to you soon.",
-      });
-      setFormData({ name: "", email: "", message: "" });
-    },
-    onError: (error: any) => {
-      console.error("Contact form error:", error);
-      toast({
-        title: "Error sending message",
-        description:
-          error?.message || "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: "Please fill in all fields",
-        description: "All fields are required to send a message.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Invalid email address",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    contactMutation.mutate(formData);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
   return (
     <section
       id="contact"
@@ -162,7 +88,18 @@ const ContactSection = () => {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              name="contact"
+              method="POST"
+              action="/thank-you"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              className="space-y-6"
+            >
+              {/* Netlify hidden inputs */}
+              <input type="hidden" name="form-name" value="contact" />
+              <input type="hidden" name="bot-field" />
+
               <div>
                 <Label
                   htmlFor="name"
@@ -174,8 +111,7 @@ const ContactSection = () => {
                   id="name"
                   name="name"
                   type="text"
-                  value={formData.name}
-                  onChange={handleChange}
+                  required
                   className="mt-2 border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white"
                   placeholder="Your name"
                 />
@@ -192,8 +128,7 @@ const ContactSection = () => {
                   id="email"
                   name="email"
                   type="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  required
                   className="mt-2 border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white"
                   placeholder="your.email@example.com"
                 />
@@ -209,9 +144,8 @@ const ContactSection = () => {
                 <Textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
                   rows={5}
+                  required
                   className="mt-2 border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white"
                   placeholder="Tell me about your project..."
                 />
@@ -219,10 +153,9 @@ const ContactSection = () => {
 
               <Button
                 type="submit"
-                disabled={contactMutation.isPending}
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
               >
-                {contactMutation.isPending ? "Sending..." : "Send Message"}
+                Send Message
               </Button>
             </form>
           </div>
