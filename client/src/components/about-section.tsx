@@ -51,8 +51,8 @@ const AboutSection = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="lg:w-1/2 mb-12 lg:mb-0">
             <img
-              src="public/Md Gulab.png"
-              alt="Alex Johnson working in modern office"
+              src="public/images/Md Gulab.png"
+              alt="Md gulab"
               className="rounded-2xl shadow-2xl w-full max-w-md mx-auto object-cover"
             />
           </div>
