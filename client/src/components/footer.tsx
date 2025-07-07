@@ -15,7 +15,7 @@ const Footer = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold">AJ</span>
               </div>
-              <span className="text-xl font-bold">Alex Johnson</span>
+              <span className="text-xl font-bold">Md Gulab</span>
             </div>
             <p className="text-slate-400">© 2024 Md Gulab. All rights reserved.</p>
           </div>

@@ -94,7 +94,7 @@ const ContactSection = () => {
             <div className="space-y-4">
               <div className="flex items-center">
                 <Mail className="text-blue-600 dark:text-blue-400 w-5 h-5 mr-4" />
-                <span className="text-slate-700 dark:text-slate-300">alex.johnson@email.com</span>
+                <span className="text-slate-700 dark:text-slate-300">team66415@email.com</span>
               </div>
               <div className="flex items-center">
                 <Phone className="text-blue-600 dark:text-blue-400 w-5 h-5 mr-4" />
