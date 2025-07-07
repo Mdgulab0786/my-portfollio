@@ -45,7 +45,7 @@ const HeroSection = () => {
                 onClick={() => {
                   // Option 1: Direct download from public folder
                   const link = document.createElement("a");
-                  link.href = "/public/Md gulab resume.pdf";
+                  link.href = "Md gulab resume.pdf";
                   link.download = "Md gulab resume";
                   link.click();
 
@@ -59,7 +59,7 @@ const HeroSection = () => {
           </div>
           <div className="lg:w-1/2 flex justify-center">
             <img
-              src="/public/Md Gulab.png"
+              src="Md Gulab.png"
               alt="Md gulab"
               className="w-80 h-80 rounded-full shadow-2xl animate-float border-8 border-white dark:border-slate-700 object-cover"
             />
