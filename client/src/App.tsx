@@ -7,12 +7,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Home from "@/pages/home";
 import NotFound from "@/pages/not-found";
 import AdminPanel from "@/pages/admin";
+import ThankYou from "@/pages/thank-you"; // ✅ NEW IMPORT
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/admin" component={AdminPanel} />
+      <Route path="/thank-you" component={ThankYou} /> {/* ✅ NEW ROUTE */}
       <Route component={NotFound} />
     </Switch>
   );
