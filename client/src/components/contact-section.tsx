@@ -3,8 +3,81 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+
+// Type definitions
+type SubmitStatus = "success" | "error" | null;
+
+interface FormData {
+  [key: string]: string;
+}
 
 const ContactSection = () => {
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>(null);
+
+  const encode = (data: FormData): string => {
+    return Object.keys(data)
+      .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+      .join("&");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    // Convert FormData to object
+    const data: FormData = {};
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    try {
+      // Check if we're in production (Netlify)
+      const isProduction = window.location.hostname !== 'localhost';
+      
+      if (isProduction) {
+        // Production: Use Netlify forms
+        const response = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encode({ "form-name": "contact", ...data })
+        });
+
+        if (response.ok) {
+          setSubmitStatus("success");
+          form.reset();
+        } else {
+          setSubmitStatus("error");
+        }
+      } else {
+        // Development: Simulate success after 1 second
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setSubmitStatus("success");
+        form.reset();
+        console.log("Form data (development):", data);
+      }
+    } catch (error) {
+      // Only show error in production
+      const isProduction = window.location.hostname !== 'localhost';
+      if (isProduction) {
+        console.error("Form submission error:", error);
+        setSubmitStatus("error");
+      } else {
+        // Development fallback - show success
+        setSubmitStatus("success");
+        form.reset();
+        console.log("Development mode - Form submitted successfully:", data);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -88,24 +161,42 @@ const ContactSection = () => {
           </div>
 
           <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8">
+            {submitStatus === "success" && (
+              <div className="mb-6 p-4 bg-green-100 dark:bg-green-900 border border-green-400 text-green-700 dark:text-green-300 rounded-lg">
+                <p className="font-semibold">Message sent successfully! ✅</p>
+                <p>Thank you for reaching out. I'll get back to you soon.</p>
+              </div>
+            )}
+
+            {submitStatus === "error" && (
+              <div className="mb-6 p-4 bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 rounded-lg">
+                <p className="font-semibold">Error sending message ❌</p>
+                <p>Please try again or contact me directly via email.</p>
+              </div>
+            )}
+
             <form
               name="contact"
               method="POST"
-              action="/thank-you"
+              onSubmit={handleSubmit}
               data-netlify="true"
-              netlify-honeypot="bot-field"
+              data-netlify-honeypot="bot-field"
               className="space-y-6"
             >
               {/* Netlify hidden inputs */}
               <input type="hidden" name="form-name" value="contact" />
-              <input type="hidden" name="bot-field" />
+              <p style={{ display: "none" }}>
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </p>
 
               <div>
                 <Label
                   htmlFor="name"
                   className="text-slate-700 dark:text-slate-300"
                 >
-                  Name
+                  Name *
                 </Label>
                 <Input
                   id="name"
@@ -122,7 +213,7 @@ const ContactSection = () => {
                   htmlFor="email"
                   className="text-slate-700 dark:text-slate-300"
                 >
-                  Email
+                  Email *
                 </Label>
                 <Input
                   id="email"
@@ -136,10 +227,26 @@ const ContactSection = () => {
 
               <div>
                 <Label
+                  htmlFor="subject"
+                  className="text-slate-700 dark:text-slate-300"
+                >
+                  Subject
+                </Label>
+                <Input
+                  id="subject"
+                  name="subject"
+                  type="text"
+                  className="mt-2 border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white"
+                  placeholder="Project inquiry, collaboration, etc."
+                />
+              </div>
+
+              <div>
+                <Label
                   htmlFor="message"
                   className="text-slate-700 dark:text-slate-300"
                 >
-                  Message
+                  Message *
                 </Label>
                 <Textarea
                   id="message"
@@ -147,15 +254,23 @@ const ContactSection = () => {
                   rows={5}
                   required
                   className="mt-2 border-slate-300 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white"
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me about your project, requirements, timeline, budget, etc."
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                Send Message
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Sending...
+                  </div>
+                ) : (
+                  "Send Message"
+                )}
               </Button>
             </form>
           </div>
