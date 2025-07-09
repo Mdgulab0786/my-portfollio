@@ -116,7 +116,7 @@ const ContactSection = () => {
               <div className="flex items-center">
                 <Phone className="text-blue-600 dark:text-blue-400 w-5 h-5 mr-4" />
                 <span className="text-slate-700 dark:text-slate-300">
-                  +91 9711214379
+                  +91 97112143
                 </span>
               </div>
               <div className="flex items-center">

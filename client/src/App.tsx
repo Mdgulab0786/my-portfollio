@@ -15,6 +15,7 @@ function Router() {
       <Route path="/admin" component={AdminPanel} />
       <Route component={NotFound} />
     </Switch>
+    
   );
 }
 
