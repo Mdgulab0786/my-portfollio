@@ -24,7 +24,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.status(400).json({
           success: false,
           message: "Invalid form data",
-          errors: err.errors, // ✅ Now TypeScript knows it's a ZodError
+          errors: err.issues, // ✅ Correct for Zod v3
         });
       } else {
         res.status(500).json({
