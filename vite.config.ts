@@ -22,7 +22,7 @@ export default defineConfig({
   },
   root: path.resolve(__dirname, "client"),
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve(__dirname, "dist"), // ✅ CHANGED from "dist/public" to "dist"
     emptyOutDir: true,
   },
   server: {
