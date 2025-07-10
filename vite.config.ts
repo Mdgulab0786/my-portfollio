@@ -2,24 +2,16 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-import { cartographer } from "@replit/vite-plugin-cartographer";
-import { viteStaticCopy } from "vite-plugin-static-copy"; // ✅ import plugin
+import { cartographer } from "@replit/vite-plugin-cartographer"; // ✅ named import
 
 export default defineConfig({
   plugins: [
     react(),
     runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined
+    ...(process.env.NODE_ENV !== "production" &&
+    process.env.REPL_ID !== undefined
       ? [cartographer()]
       : []),
-    viteStaticCopy({
-      targets: [
-        {
-         src: path.resolve(__dirname, "public", "_redirects"), // 📂 source file
-          dest: "." // ⬇️ copy to root of output (dist/public/)
-        },
-      ],
-    }),
   ],
   resolve: {
     alias: {
